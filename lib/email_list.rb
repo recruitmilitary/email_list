@@ -18,17 +18,11 @@ class EmailList
   EMAIL_ADDRESS_EXACT_PATTERN   = Regexp.new "\\A#{EMAIL_ADDRESS_SPEC}\\z", nil, 'n'
 
   def self.valid?(emails)
-    split(emails).each do |email|
-      unless email =~ EMAIL_ADDRESS_EXACT_PATTERN
-        return false
-      end
-    end
-
-    true
+    new(emails).valid?
   end
 
   def self.split(emails)
-    emails.split(/,|;\s?/).map &:strip
+    new(emails).emails
   end
 
   include Enumerable
@@ -39,7 +33,7 @@ class EmailList
     string = '' if string.nil?
 
     @string = string
-    @emails = EmailList.split(@string)
+    @emails = @string.split(/,|;\s?/).map &:strip
   end
 
   def each(&block)
@@ -56,6 +50,16 @@ class EmailList
     else
       emails.sort == other.emails.sort
     end
+  end
+
+  def valid?
+    emails.each do |email|
+      unless email =~ EMAIL_ADDRESS_EXACT_PATTERN
+        return false
+      end
+    end
+
+    true
   end
 
 end
