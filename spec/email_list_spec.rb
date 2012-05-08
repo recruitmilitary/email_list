@@ -101,4 +101,10 @@ describe EmailList do
 
     email_list.emails.should == []
   end
+
+  it 'knows the size of the list' do
+    email_list = EmailList.new('foo@example.org, bar@example.org')
+
+    email_list.size.should == 2
+  end
 end

@@ -40,6 +40,10 @@ class EmailList
     @emails.each(&block)
   end
 
+  def size
+    @emails.size
+  end
+
   def to_s
     @string.to_s
   end
