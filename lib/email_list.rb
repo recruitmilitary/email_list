@@ -49,9 +49,12 @@ class EmailList
   end
 
   def ==(other)
-    if other.is_a?(String)
+    case other
+    when String
       emails.sort == EmailList.split(other).sort
-    else
+    when Array
+      emails == other
+    when EmailList
       emails.sort == other.emails.sort
     end
   end

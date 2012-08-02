@@ -96,6 +96,12 @@ describe EmailList do
     email_list.should == string
   end
 
+  it 'compares against arrays' do
+    email_list = EmailList.new('foo@example.org, bar@example.org')
+
+    email_list.should == ['foo@example.org', 'bar@example.org']
+  end
+
   it 'returns an empty email list when given nil' do
     email_list = EmailList.new(nil)
 
