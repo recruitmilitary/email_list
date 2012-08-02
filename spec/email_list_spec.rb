@@ -102,10 +102,23 @@ describe EmailList do
     email_list.should == ['foo@example.org', 'bar@example.org']
   end
 
+  it 'allows the additional of arrays' do
+    email_list = EmailList.new 'foo@example.org'
+
+    (email_list + ['bar@example.org']).should == EmailList.new('foo@example.org, bar@example.org')
+  end
+
   it 'returns an empty email list when given nil' do
     email_list = EmailList.new(nil)
 
     email_list.emails.should == []
+  end
+
+  it 'allows initialization with an array' do
+    addresses = ['foo@example.org', 'bar@example.org']
+    email_list = EmailList.new addresses
+
+    email_list.should == addresses
   end
 
   it 'knows the size of the list' do

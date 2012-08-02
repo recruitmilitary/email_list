@@ -29,11 +29,14 @@ class EmailList
 
   attr_reader :emails
 
-  def initialize(string)
-    string = '' if string.nil?
-
-    @string = string
-    @emails = @string.split(/,|;\s?/).map &:strip
+  def initialize(email_list)
+    if email_list.respond_to? :split
+      @emails = email_list.split(/,|;\s?/).map &:strip
+    elsif email_list.nil?
+      @emails = []
+    else
+      @emails = email_list
+    end
   end
 
   def each(&block)
@@ -45,7 +48,7 @@ class EmailList
   end
 
   def to_s
-    @string.to_s
+    @emails.join(", ")
   end
 
   def ==(other)
@@ -57,6 +60,10 @@ class EmailList
     when EmailList
       emails.sort == other.emails.sort
     end
+  end
+
+  def +(other)
+    EmailList.new emails + other
   end
 
   def valid?
