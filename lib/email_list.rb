@@ -30,12 +30,13 @@ class EmailList
   attr_reader :emails
 
   def initialize(email_list)
-    if email_list.respond_to? :split
+    case email_list
+    when String
       @emails = email_list.split(/,|;\s?/).map &:strip
-    elsif email_list.nil?
-      @emails = []
-    else
+    when Array
       @emails = email_list
+    when NilClass
+      @emails = []
     end
   end
 
